@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import Container from "@/components/Container";
 import { HiOutlineMail } from "react-icons/hi";
 import { BsTelephone, BsLinkedin, BsGithub } from "react-icons/bs";
+import { HiCheckCircle } from "react-icons/hi";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -12,14 +13,43 @@ const Contact = () => {
     message: "",
   });
 
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const isFormValid = formData.name.trim() && formData.email.includes("@") && formData.message.trim();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    setFormData({ name: "", email: "", message: "" });
+    setLoading(true);
+    setSuccess(false);
+
+    try {
+      const response = await fetch("https://formspree.io/f/xkopekrg", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setSuccess(true);
+        setFormData({ name: "", email: "", message: "" });
+
+        setTimeout(() => setSuccess(false), 3000)
+      } else {
+        alert("Failed to send message.");
+      }
+    } catch (error) {
+      alert("Something went wrong.");
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -105,10 +135,23 @@ const Contact = () => {
             />
             <button
               type="submit"
+              disabled={!isFormValid || loading}
               className="primary-gradient w-full rounded-[3rem] px-5 py-3 text-sm font-semibold text-[#131313] transition-transform duration-300 hover:scale-[1.02]"
-            >
-              Send Message
+              >
+              {loading ? "Sending..." : "Send Message"}
             </button>
+
+            {success && (
+              <div className="mt-4 flex justify-center">
+                <div
+                  role="alert"
+                  className="text-green-400 font-medium flex items-center gap-2 transition-all duration-500 transform opacity-100 translate-y-0"
+                >
+                  <HiCheckCircle className="w-5 h-5" />
+                  Message sent successfully
+                </div>
+              </div>
+            )}
           </form>
         </div>
       </div>
@@ -117,4 +160,3 @@ const Contact = () => {
 };
 
 export default Contact;
-

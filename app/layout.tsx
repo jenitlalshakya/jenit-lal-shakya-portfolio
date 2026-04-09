@@ -10,6 +10,7 @@ const inter = Inter({
 // SEO-friendly metadata
 export const metadata: Metadata = {
   title: "Jenit Lal Shakya | Web Developer & Portfolio",
+  robots: "noindex, nofollow",
   description:
     "Explore the portfolio of Jenit Lal Shakya, a professional web developer specializing in modern web development, React, Next.js, and responsive design.",
   keywords: [

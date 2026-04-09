@@ -1,18 +1,165 @@
-// import Link from "next/link";
 "use client";
+
 import Image from "next/image";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import Container from "@/components/Container";
 import me from "@/public/images/me.png";
 
+const SUBTEXT =
+  "Full-stack developer crafting premium UI and scalable digital experiences.";
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+/** Professional roles shown in the typing line (edit here). */
+const TYPING_ROLES = [
+  "I'm a full-stack developer",
+  "I'm a freelance web developer",
+  "I build scalable web applications",
+  "I design premium user interfaces",
+  "I specialize in Git and GitHub workflows",
+  "I craft modern web experiences",
+] as const;
+
+/** Last hero entrance finishes: second CTA delay (1.28s) + duration (0.75s). */
+const HERO_INTRO_COMPLETE_MS = 1280 + 750;
+
+/** Extra wait after hero motions before typing begins (1.2–1.8s range). */
+const TYPING_START_DELAY_MS = 1500;
+
+const TYPE_CHAR_MS = 48;
+const DELETE_CHAR_MS = 36;
+const HOLD_FULL_MS = 1300;
+
+type UseTypingCycleOptions = {
+  enabled: boolean;
+  startAfterMs: number;
+  typeCharMs: number;
+  deleteCharMs: number;
+  holdFullMs: number;
+};
+
+function useTypingCycle(
+  roles: readonly string[],
+  {
+    enabled,
+    startAfterMs,
+    typeCharMs,
+    deleteCharMs,
+    holdFullMs,
+  }: UseTypingCycleOptions
+) {
+  const [text, setText] = useState("");
+  const textRef = useRef("");
+  const roleIndexRef = useRef(0);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const rolesRef = useRef(roles);
+  rolesRef.current = roles;
+
+  useEffect(() => {
+    const clearTimer = () => {
+      if (timeoutRef.current !== null) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+    };
+
+    if (!enabled) {
+      clearTimer();
+      const first = rolesRef.current[0] ?? "";
+      textRef.current = first;
+      setText(first);
+      return;
+    }
+
+    textRef.current = "";
+    roleIndexRef.current = 0;
+    setText("");
+
+    const schedule = (fn: () => void, ms: number) => {
+      clearTimer();
+      timeoutRef.current = setTimeout(fn, ms);
+    };
+
+    const typeNext = () => {
+      const list = rolesRef.current;
+      if (list.length === 0) return;
+      const full = list[roleIndexRef.current % list.length];
+      if (textRef.current.length < full.length) {
+        textRef.current = full.slice(0, textRef.current.length + 1);
+        setText(textRef.current);
+        schedule(typeNext, typeCharMs);
+      } else {
+        schedule(deleteNext, holdFullMs);
+      }
+    };
+
+    const deleteNext = () => {
+      if (textRef.current.length > 0) {
+        textRef.current = textRef.current.slice(0, -1);
+        setText(textRef.current);
+        schedule(deleteNext, deleteCharMs);
+      } else {
+        roleIndexRef.current += 1;
+        schedule(typeNext, typeCharMs);
+      }
+    };
+
+    const startId = setTimeout(() => {
+      typeNext();
+    }, startAfterMs);
+
+    return () => {
+      clearTimeout(startId);
+      clearTimer();
+    };
+  }, [enabled, startAfterMs, typeCharMs, deleteCharMs, holdFullMs]);
+
+  return text;
+}
+
 const Hero = () => {
+  const prefersReducedMotion = useReducedMotion();
+  const words = useMemo(() => SUBTEXT.split(/\s+/), []);
+
   const handleScroll = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
-
       window.history.replaceState(null, "", "/");
     }
   };
+
+  const instant = prefersReducedMotion === true;
+
+  const titleTransition = {
+    duration: instant ? 0 : 1,
+    ease: EASE,
+  };
+
+  const wordBaseDelay = instant ? 0 : 0.48;
+  const wordStagger = instant ? 0 : 0.042;
+
+  const buttonDelays = instant ? [0, 0] : [1.12, 1.28];
+
+  const hoverProps = instant
+    ? {}
+    : {
+        whileHover: { scale: 1.025 },
+        whileTap: { scale: 0.99 },
+      };
+
+  const typingStartAfterMs = instant
+    ? 0
+    : HERO_INTRO_COMPLETE_MS + TYPING_START_DELAY_MS;
+
+  const typingLine = useTypingCycle(TYPING_ROLES, {
+    enabled: !instant,
+    startAfterMs: typingStartAfterMs,
+    typeCharMs: TYPE_CHAR_MS,
+    deleteCharMs: DELETE_CHAR_MS,
+    holdFullMs: HOLD_FULL_MS,
+  });
 
   return (
     <Container
@@ -21,33 +168,88 @@ const Hero = () => {
     >
       <div className="grid items-center grid-cols-1 gap-10 md:gap-12 lg:grid-cols-5">
         <div className="space-y-6 sm:space-y-8 lg:col-span-3">
-          <h1 className="max-w-4xl text-[2rem] leading-[1.08] font-bold tracking-tight text-[#e5e2e1] sm:text-[2.4rem] md:text-[3rem] lg:text-[3.5rem]">
-            Hi, I'm Jenit Lal Shakya
-          </h1>
-          <p className="max-w-2xl text-sm leading-7 text-[#c2c6d6] sm:text-base sm:leading-8 md:text-lg">
-            Full-stack developer. Premium UI. Scalable systems.
+          <motion.h1
+            className="max-w-4xl text-[2rem] leading-[1.08] font-bold tracking-tight sm:text-[2.4rem] md:text-[3rem] lg:text-[3.5rem]"
+            initial={instant ? false : { opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={titleTransition}
+          >
+            <span className="hero-heading-shimmer block">
+              Hi, I&apos;m Jenit Lal Shakya
+            </span>
+          </motion.h1>
+
+          <p
+            className="min-h-[1.6em] text-base leading-relaxed text-[#dbe7ff]/90 sm:text-lg md:text-xl"
+            aria-live={instant ? undefined : "polite"}
+          >
+            <span className="font-semibold tracking-wide text-lg md:text-2xl bg-gradient-to-r from-blue-400 via-purple-500 to-blue-400 bg-[length:200%_auto] bg-clip-text text-transparent animate-gradient drop-shadow-[0_0_14px_rgba(139,92,246,0.45)]">
+              {typingLine}
+            </span>
+            <span
+              className="ml-0.5 inline-block font-light text-[#7faeff] animate-pulse"
+              aria-hidden
+            >
+              |
+            </span>
           </p>
+
+          <p
+            className="max-w-2xl text-sm leading-7 text-[#c2c6d6] sm:text-base sm:leading-8 md:text-lg"
+            aria-label={SUBTEXT}
+          >
+            {words.map((word, i) => (
+              <motion.span
+                key={`${word}-${i}`}
+                className="mr-[0.22em] inline-block last:mr-0"
+                initial={instant ? false : { opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: instant ? 0 : 0.58,
+                  ease: EASE,
+                  delay: wordBaseDelay + i * wordStagger,
+                }}
+              >
+                {word}
+              </motion.span>
+            ))}
+          </p>
+
           <div className="flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
-            <a
+            <motion.a
               onClick={() => handleScroll("projects")}
-              className="primary-gradient inline-flex w-full justify-center rounded-[3rem] px-6 py-3 text-sm font-semibold text-[#131313] shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_8px_20px_rgba(10,22,46,0.6)] transition-all duration-300 hover:scale-[1.02] hover:brightness-110 hover:shadow-[0_0_0_1px_rgba(127,174,255,0.3),0_0_30px_rgba(77,142,255,0.5)] sm:w-auto sm:px-8"              style={{ cursor: "pointer" }}
+              className="primary-gradient inline-flex w-full cursor-pointer touch-manipulation justify-center rounded-[3rem] px-6 py-3 text-sm font-semibold text-[#131313] shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_8px_20px_rgba(10,22,46,0.6)] transition-[box-shadow,filter] duration-300 ease-out hover:brightness-110 hover:shadow-[0_0_0_1px_rgba(127,174,255,0.35),0_0_28px_rgba(77,142,255,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7faeff] sm:w-auto sm:px-8"
+              initial={instant ? false : { opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: instant ? 0 : 0.75,
+                ease: EASE,
+                delay: buttonDelays[0],
+              }}
+              {...hoverProps}
             >
               Explore Projects
-            </a>
+            </motion.a>
 
-            <a
+            <motion.a
               onClick={() => handleScroll("contact")}
-              className="inline-flex w-full justify-center rounded-[3rem] px-6 py-3 text-sm font-semibold text-[#dbe7ff] border border-[#4d8eff]/60 bg-linear-to-r from-[#1b2a48]/90 to-[#14213f]/90 shadow-[0_0_0_1px_rgba(77,142,255,0.12),0_8px_20px_rgba(10,22,46,0.6)] transition-all duration-300 hover:border-[#7faeff] hover:text-[#f2f6ff] hover:brightness-110 hover:shadow-[0_0_0_1px_rgba(127,174,255,0.3),0_0_24px_rgba(77,142,255,0.3)] sm:w-auto sm:px-8"
-              style={{ cursor: "pointer" }}
+              className="inline-flex w-full cursor-pointer touch-manipulation justify-center rounded-[3rem] px-6 py-3 text-sm font-semibold text-[#dbe7ff] border border-[#4d8eff]/60 bg-linear-to-r from-[#1b2a48]/90 to-[#14213f]/90 shadow-[0_0_0_1px_rgba(77,142,255,0.12),0_8px_20px_rgba(10,22,46,0.6)] transition-[box-shadow,filter,border-color,color] duration-300 ease-out hover:border-[#7faeff] hover:text-[#f2f6ff] hover:brightness-110 hover:shadow-[0_0_0_1px_rgba(127,174,255,0.35),0_0_26px_rgba(77,142,255,0.35)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7faeff] sm:w-auto sm:px-8"
+              initial={instant ? false : { opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: instant ? 0 : 0.75,
+                ease: EASE,
+                delay: buttonDelays[1],
+              }}
+              {...hoverProps}
             >
               Let&apos;s Connect
-            </a>
+            </motion.a>
           </div>
         </div>
 
         <div className="hidden lg:col-span-2 lg:flex lg:justify-end">
-          {/* <div className="w-100 h-100 relative rounded-3xl overflow-hidden mx-auto shadow-[0_0_20px_rgba(77,142,255,0.6), 0_0_40px_rgba(77,142,255,0.4)]"> */}
-          <div className="relative w-[400px] h-[400px] translate-y-[-70px]">
+          <div className="relative h-[400px] w-[400px] translate-y-[-70px]">
             <Image
               src={me}
               alt="Jenit Lal Shakya"
@@ -55,12 +257,13 @@ const Hero = () => {
               sizes="(max-width: 768px) 100vw, 400px"
               loading="eager"
               style={{ objectFit: "cover" }}
+              priority
             />
           </div>
         </div>
       </div>
     </Container>
-  )
-}
+  );
+};
 
 export default Hero;

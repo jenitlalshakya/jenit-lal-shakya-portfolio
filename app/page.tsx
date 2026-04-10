@@ -6,11 +6,15 @@ import Navbar from "@/components/Navbar";
 import Projects from "@/components/Projects";
 import Skills from "@/components/Skills";
 import SwipeUpIcon from "@/components/SwipeUpIcon";
+import AnnouncementBar from "@/components/AnnouncementBar";
 
 export default function Home() {
   return (
     <main className="min-h-screen overflow-x-clip pb-10 sm:pb-12">
-      <Navbar />
+      <div className="sticky top-0 z-50">
+        <AnnouncementBar />
+        <Navbar />
+      </div>
       <Hero />
       <About />
       <Skills />

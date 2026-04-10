@@ -2,8 +2,7 @@
 
 import React, { useState } from "react";
 import Container from "@/components/Container";
-import { HiOutlineMail } from "react-icons/hi";
-import { BsTelephone, BsLinkedin, BsGithub } from "react-icons/bs";
+import { BsLinkedin, BsGithub } from "react-icons/bs";
 import { HiCheckCircle } from "react-icons/hi";
 
 const Contact = () => {
@@ -68,20 +67,6 @@ const Contact = () => {
 
         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-10">
           <div className="flex flex-col gap-6">
-            <div>
-              <div className="flex items-center gap-3">
-                <HiOutlineMail className="text-[#4d8eff] w-7 h-7" />
-                <p className="text-sm text-[#c2c6d6] font-medium">Email</p>
-              </div>
-              <a href="mailto:shakyajenit@gmail.com" className="text-[#4d8eff] hover:underline ml-10">shakyajenit@gmail.com</a>
-            </div>
-            <div>
-              <div className="flex items-center gap-3">
-                <BsTelephone className="text-[#4d8eff] w-7 h-7" />
-                <p className="text-sm text-[#c2c6d6] font-medium">Phone</p>
-              </div>
-              <a href="tel:+9779840041510" className="text-[#4d8eff] hover:underline ml-10">+977 9840041510</a>
-            </div>
             <div>
               <div className="flex items-center gap-3">
                 <BsLinkedin className="text-[#4d8eff] w-7 h-7" />

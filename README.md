@@ -4,8 +4,7 @@ A modern, responsive personal portfolio website built to showcase my projects, s
 
 ## 🌐 Live Demo
 
-👉 [View Portfolio](#)
-*(Replace with your deployed link)*
+👉 [View Portfolio](https://www.jenitlalshakya.com.np)
 
 ---
 
@@ -95,9 +94,9 @@ You can easily deploy this project using:
 
 If you want to connect or collaborate:
 
-* Email: [shakyajenit@gmail.com](mailto:your-shakyajenit@gmail.com)
-* LinkedIn: (https://www.linkedin.com/in/jenit-lal-shakya-602462400/)
-* GitHub: https://github.com/jenitlalshakya
+* Email: [shakyajenit@gmail.com](mailto:shakyajenit@gmail.com)
+* LinkedIn: [My LinkedIn](https://www.linkedin.com/in/jenit-lal-shakya-602462400/)
+* GitHub: [My Github](https://github.com/jenitlalshakya)
 
 ---
 
@@ -113,6 +112,15 @@ This project is open source and available under the **MIT License**.
 * Integrate backend for contact form
 * Add animations & micro-interactions
 * Improve SEO
+
+---
+
+## 👤 Author
+
+**Jenit Lal Shakya**  
+Frontend Developer • Learning Full Stack Development 
+
+📧 Email: [shakyajenit@gmail.com](mailto:shakyajenit@gmail.com)
 
 ---
 

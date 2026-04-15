@@ -12,6 +12,10 @@ export const metadata: Metadata = {
   title: "Jenit Lal Shakya | Web Developer & Portfolio",
   description:
     "Explore the portfolio of Jenit Lal Shakya, a professional web developer specializing in modern web development, React, Next.js, and responsive design.",
+  robots: {
+    index: process.env.NEXT_PUBLIC_INDEX === "true",
+    follow: process.env.NEXT_PUBLIC_INDEX === "true",
+  },
   keywords: [
     "Jenit Lal Shakya",
     "web developer",

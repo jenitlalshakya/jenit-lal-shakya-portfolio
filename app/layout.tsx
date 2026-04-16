@@ -9,6 +9,7 @@ const inter = Inter({
 
 // SEO-friendly metadata
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.jenitlalshakya.com.np"),
   title: "Jenit Lal Shakya | Web Developer & Portfolio",
   description:
     "Explore the portfolio of Jenit Lal Shakya, a professional web developer specializing in modern web development, React, Next.js, and responsive design.",
@@ -25,30 +26,34 @@ export const metadata: Metadata = {
     "UI/UX design",
     "JavaScript projects",
   ],
-  authors: [{ name: "Jenit Lal Shakya", url: "https://jenitlalshakya.com.np" }],
+  authors: [{ name: "Jenit Lal Shakya", url: "https://www.jenitlalshakya.com.np" }],
+  alternates: { canonical: "https://www.jenitlalshakya.com.np" },
   openGraph: {
+    locale: "en_US",
     title: "Jenit Lal Shakya | Web Developer Portfolio",
     description:
       "Showcasing web development projects, skills, and expertise in React, Next.js, and modern web technologies.",
-    url: "https://jenitlalshakya.com.np",
+    url: "https://www.jenitlalshakya.com.np",
     siteName: "Jenit Lal Shakya Portfolio",
     images: [
       {
-        url: "https://jenitlalshakya.com.np/images/og-image.png",
+        url: "https://www.jenitlalshakya.com.np/images/og-image.png",
         width: 1200,
         height: 630,
         alt: "Jenit Lal Shakya Portfolio",
+        type: "image/png",
       },
     ],
     type: "website",
   },
   twitter: {
+    site: "@jenitlalshakya",
     card: "summary_large_image",
     title: "Jenit Lal Shakya | Web Developer Portfolio",
     description:
       "Showcasing web development projects, skills, and expertise in React, Next.js, and modern web technologies.",
-    images: ["https://jenitlalshakya.com.np/images/og-image.png"],
-    creator: "@JenitLalShakya",
+    images: ["https://www.jenitlalshakya.com.np/images/og-image.png"],
+    creator: "@jenitlalshakya",
   },
 };
 

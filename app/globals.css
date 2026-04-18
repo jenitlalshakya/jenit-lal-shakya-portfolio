@@ -114,6 +114,21 @@ main {
   animation: gradientMove 4s linear infinite;
 }
 
+/* ── Neon segmented ring: rotation only, no opacity/blur changes ── */
+@keyframes neon-ring-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.neon-ring-spin {
+  animation: neon-ring-spin 18s linear infinite;
+  transform-origin: center center;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-heading-shimmer {
     animation: none;
@@ -123,6 +138,10 @@ main {
   }
 
   .animate-gradient {
+    animation: none;
+  }
+
+  .neon-ring-spin {
     animation: none;
   }
 }

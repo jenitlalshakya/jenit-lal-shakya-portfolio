@@ -15,9 +15,14 @@ const Contact = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const isFormValid = formData.name.trim() && formData.email.includes("@") && formData.message.trim();
+  const isFormValid =
+    formData.name.trim() &&
+    formData.email.includes("@") &&
+    formData.message.trim();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -40,7 +45,7 @@ const Contact = () => {
         setSuccess(true);
         setFormData({ name: "", email: "", message: "" });
 
-        setTimeout(() => setSuccess(false), 3000)
+        setTimeout(() => setSuccess(false), 3000);
       } else {
         alert("Failed to send message.");
       }
@@ -53,44 +58,53 @@ const Contact = () => {
 
   return (
     <Container id="contact" className="py-20 sm:py-24 md:py-32 lg:py-36">
-      <div className="rounded-4xl bg-[#2a2a2a]/70 p-6 shadow-[0_20px_40px_rgba(0,0,0,0.4)] backdrop-blur-xl sm:p-8 md:p-12">
-        <p className="text-xs font-medium tracking-widest text-[#adc6ff] uppercase">
+      <div className="rounded-4xl bg-(--surface) p-6 shadow-[0_10px_30px_rgba(0,0,0,0.12)] backdrop-blur-xl sm:p-8 md:p-12">
+        <p className="text-xs font-medium tracking-widest uppercase text-(--primary)">
           Contact
         </p>
-        <h2 className="mt-5 max-w-3xl text-[1.45rem] leading-tight font-semibold text-[#e5e2e1] sm:mt-6 sm:text-[1.6rem] md:text-[1.75rem]">
+        <h2 className="mt-5 max-w-3xl text-[1.45rem] leading-tight font-semibold sm:mt-6 sm:text-[1.6rem] md:text-[1.75rem] text-(--on-surface)">
           Let&apos;s build exceptional products with strong architecture and
           meticulous interface craft.
         </h2>
-        <p className="mt-6 max-w-2xl text-sm leading-7 text-[#c2c6d6] sm:mt-8 sm:text-base sm:leading-8">
+        <p className="mt-6 max-w-2xl text-sm leading-7 sm:mt-8 sm:text-base sm:leading-8 text-(--on-surface-variant)">
           Reach out to discuss collaborations, consulting, or full-time roles.
         </p>
-
         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-10">
           <div className="flex flex-col gap-6">
             <div>
               <div className="flex items-center gap-3">
-                <BsLinkedin className="text-[#4d8eff] w-7 h-7" />
-                <p className="text-sm text-[#c2c6d6] font-medium">LinkedIn</p>
+                <BsLinkedin className="w-7 h-7 text-(--primary)" />
+                <p className="text-sm font-medium text-(--on-surface-variant)">
+                  LinkedIn
+                </p>
               </div>
-              <a href="https://www.linkedin.com/in/jenit-lal-shakya-602462400/" target="_blank" rel="noopener noreferrer" className="text-[#4d8eff] hover:underline ml-10">
+              <a
+                href="https://www.linkedin.com/in/jenit-lal-shakya-602462400/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ml-10 text-(--primary) hover:underline"
+              >
                 Connect on LinkedIn
               </a>
             </div>
             <div>
               <div className="flex items-center gap-3">
-                <BsGithub className="text-[#4d8eff] w-7 h-7" />
-                <p className="text-sm text-[#c2c6d6] font-medium">GitHub</p>
+                <BsGithub className="w-7 h-7 text-(--primary)" />
+                <p className="text-sm font-medium text-(--on-surface-variant)">
+                  GitHub
+                </p>
               </div>
-              <a href="https://github.com/jenitlalshakya" target="_blank" rel="noopener noreferrer" className="text-[#4d8eff] hover:underline ml-10">
+              <a
+                href="https://github.com/jenitlalshakya"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ml-10 text-(--primary) hover:underline"
+              >
                 View my work
               </a>
             </div>
           </div>
-
-          <form
-            onSubmit={handleSubmit}
-            className="flex flex-col gap-6"
-          >
+          <form onSubmit={handleSubmit} className="flex flex-col gap-6">
             <input
               type="text"
               name="name"
@@ -98,7 +112,15 @@ const Contact = () => {
               value={formData.name}
               onChange={handleChange}
               required
-              className="w-full rounded-3xl bg-[#353534]/70 backdrop-blur-md px-5 py-3 text-sm text-[#e5e2e1] placeholder:text-[#c2c6d6] focus:outline-none focus:ring-2 focus:ring-[#4d8eff] transition"
+              className="
+                w-full rounded-3xl px-5 py-3 text-sm
+                bg-(--surface-container-high)
+                text-(--on-surface)
+                border border-(--contact-border)
+                placeholder:text-(--on-surface-variant)
+                focus:outline-none focus:ring-2 focus:ring-(--primary)
+                transition
+              "
             />
             <input
               type="email"
@@ -107,7 +129,15 @@ const Contact = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full rounded-3xl bg-[#353534]/70 backdrop-blur-md px-5 py-3 text-sm text-[#e5e2e1] placeholder:text-[#c2c6d6] focus:outline-none focus:ring-2 focus:ring-[#4d8eff] transition"
+              className="
+                w-full rounded-3xl px-5 py-3 text-sm
+                bg-(--surface-container-high)
+                text-(--on-surface)
+                border border-(--contact-border)
+                placeholder:text-(--on-surface-variant)
+                focus:outline-none focus:ring-2 focus:ring-(--primary)
+                transition
+              "
             />
             <textarea
               name="message"
@@ -116,13 +146,28 @@ const Contact = () => {
               onChange={handleChange}
               rows={5}
               required
-              className="w-full rounded-3xl bg-[#353534]/70 backdrop-blur-md px-5 py-3 text-sm text-[#e5e2e1] placeholder:text-[#c2c6d6] focus:outline-none focus:ring-2 focus:ring-[#4d8eff] transition resize-none"
+              className="
+                w-full rounded-3xl px-5 py-3 text-sm resize-none
+                bg-(--surface-container-high)
+                text-(--on-surface)
+                border border-(--contact-border)
+                placeholder:text-(--on-surface-variant)
+                focus:outline-none focus:ring-2 focus:ring-(--primary)
+                transition
+              "
             />
             <button
               type="submit"
               disabled={!isFormValid || loading}
-              className="primary-gradient w-full rounded-[3rem] px-5 py-3 text-sm font-semibold text-[#131313] transition-transform duration-300 hover:scale-[1.02]"
-              >
+              className="
+                w-full rounded-[3rem] px-5 py-3 text-sm font-semibold
+                bg-(--primary)
+                text-(--background)
+                transition-transform duration-300
+                hover:scale-[1.02]
+                disabled:opacity-50
+              "
+            >
               {loading ? "Sending..." : "Send Message"}
             </button>
 
@@ -130,7 +175,7 @@ const Contact = () => {
               <div className="mt-4 flex justify-center">
                 <div
                   role="alert"
-                  className="text-green-400 font-medium flex items-center gap-2 transition-all duration-500 transform opacity-100 translate-y-0"
+                  className="flex items-center gap-2 font-medium text-green-400 transition-all"
                 >
                   <HiCheckCircle className="w-5 h-5" />
                   Message sent successfully

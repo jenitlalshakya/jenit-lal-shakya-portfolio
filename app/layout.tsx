@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Providers from "./providers";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
 });
 
-// SEO-friendly metadata
+// SEO metadata unchanged
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.jenitlalshakya.com.np"),
   title: "Jenit Lal Shakya | Web Developer & Portfolio",
@@ -26,7 +27,12 @@ export const metadata: Metadata = {
     "UI/UX design",
     "JavaScript projects",
   ],
-  authors: [{ name: "Jenit Lal Shakya", url: "https://www.jenitlalshakya.com.np" }],
+  authors: [
+    {
+      name: "Jenit Lal Shakya",
+      url: "https://www.jenitlalshakya.com.np",
+    },
+  ],
   alternates: { canonical: "https://www.jenitlalshakya.com.np" },
   openGraph: {
     locale: "en_US",
@@ -59,12 +65,42 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en" data-scroll-behavior="smooth" className={`${inter.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col overflow-x-hidden">{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function () {
+                const media = window.matchMedia('(prefers-color-scheme: dark)');
+                const root = document.documentElement;
+
+                function applyTheme(e) {
+                  if (e.matches) {
+                    root.classList.add('dark');
+                  } else {
+                    root.classList.remove('dark');
+                  }
+                }
+
+                // initial
+                applyTheme(media);
+
+                // live update
+                media.addEventListener('change', applyTheme);
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body className="min-h-full overflow-x-hidden">
+        <Providers>
+          {children}
+        </Providers>
+      </body>
     </html>
   );
 }

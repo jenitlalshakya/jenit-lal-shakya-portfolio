@@ -27,53 +27,53 @@ const SwipeUpIcon = () => {
       onMouseEnter={() => setHovered(true)}
       onMouseDown={() => setPressed(true)}
       onMouseUp={() => setPressed(false)}
-      onMouseLeave={() => { setHovered(false); setPressed(false) }}
-      style={{
-        position: "fixed",
-        bottom: "40px",
-        right: "40px",
-        width: "56px",
-        height: "56px",
-        borderRadius: "50%",
-        background: hovered
-          ? "rgba(77, 142, 255, 0.25"
-          : "rgba(77, 142, 255, 0.15)",
-        backdropFilter: "blur(12px)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        cursor: "pointer",
-        boxShadow: pressed
-          ? "0 6px 12 rgba(77, 142, 255, 0.4)"
-          : visible
-          ? "0 16px 32px rgba(77, 142, 255, 0.5)"
-          : "0 12px 24px rgba(77, 142, 255, 0.3)",
-        transform: visible
-          ? pressed
-            ? "scale(0.92)"
-            : "translateY(0)"
-          : "translateY(50px)",
-        
-        transition: "opacity 0.3s ease, transform 0.15s ease, box-shadow 0.15s ease",
-        opacity: visible ? 1 : 0,
-        pointerEvents: visible ? "auto" : "none",
+      onMouseLeave={() => {
+        setHovered(false);
+        setPressed(false);
       }}
       title="Scroll to top"
+      className={`
+        fixed bottom-10 right-10 z-50
+        flex h-14 w-14 items-center justify-center
+        rounded-full cursor-pointer
+        backdrop-blur-xl
+        transition-all duration-200
+        border border-(--outline-variant)/20
+
+        ${hovered
+          ? "bg-(--primary)/20"
+          : "bg-(--primary)/10"
+        }
+
+        ${visible
+          ? "opacity-100 translate-y-0 pointer-events-auto"
+          : "opacity-0 translate-y-10 pointer-events-none"
+        }
+
+        ${pressed ? "scale-90" : "scale-100"
+        }
+
+        ${visible
+          ? "shadow-[0_16px_32px_rgba(0,0,0,0.35)]"
+          : "shadow-[0_12px_24px_rgba(0,0,0,0.2)]"
+        }
+      `}
     >
       {/* Arrow Icon */}
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="28"
-        height="28"
+        width="26"
+        height="26"
         viewBox="0 0 24 24"
         fill="none"
-        stroke="#adc6ff"
+        stroke="currentColor"
+        className="text-(--primary)"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <line x1="12" y1="19" x2="12" y2="5"></line>
-        <polyline points="5 12 12 5 19 12"></polyline>
+        <line x1="12" y1="19" x2="12" y2="5" />
+        <polyline points="5 12 12 5 19 12" />
       </svg>
     </div>
   );

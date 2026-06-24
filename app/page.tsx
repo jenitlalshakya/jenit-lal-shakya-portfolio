@@ -1,27 +1,33 @@
-import About from "@/components/About";
-import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
-import Hero from "@/components/Hero";
-import Navbar from "@/components/Navbar";
-import Projects from "@/components/Projects";
-import Skills from "@/components/Skills";
-import SwipeUpIcon from "@/components/SwipeUpIcon";
-import AnnouncementBar from "@/components/AnnouncementBar";
+import { HashlessScroll } from "@/components/common/HashlessScroll";
+import { ScrollToTop } from "@/components/common/ScrollToTop";
+import { Footer } from "@/components/layout/Footer";
+import { Navbar } from "@/components/layout/Navbar";
+import { About } from "@/components/sections/About";
+import { Contact } from "@/components/sections/Contact";
+import { Education } from "@/components/sections/Education";
+import { Experience } from "@/components/sections/Experience";
+import { Hero } from "@/components/sections/Hero";
+import { Projects } from "@/components/sections/Projects";
+import { Skills } from "@/components/sections/Skills";
+// import { Testimonials } from "@/components/sections/Testimonials";
 
-export default function Home() {
-  return (
-    <main className="min-h-screen overflow-x-clip pb-10 sm:pb-12">
-      <div className="sticky top-0 z-50">
-        <AnnouncementBar />
-        <Navbar />
-      </div>
+const HomePage = () => (
+  <>
+    <HashlessScroll />
+    <Navbar />
+    <main id="main-content" tabIndex={-1} className="outline-none">
       <Hero />
       <About />
+      <Education />
       <Skills />
       <Projects />
+      <Experience />
+      {/* <Testimonials /> */}
       <Contact />
-      <Footer />
-      <SwipeUpIcon />
     </main>
-  );
-}
+    <ScrollToTop />
+    <Footer />
+  </>
+);
+
+export default HomePage;

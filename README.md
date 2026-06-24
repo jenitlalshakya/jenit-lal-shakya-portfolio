@@ -40,10 +40,12 @@ Built using modern web technologies with a focus on performance, responsiveness,
 ## 📁 Project Structure
 
 ```
-/components     → Reusable UI components  
-/app            → Main application routes  
-/public         → Static assets  
-/styles         → Global styles  
+/app            → Next.js App Router pages and layouts
+/components     → Shared and reusable UI components
+/data           → Portfolio content, configuration, and constants
+/lib            → Utility functions and helper modules
+/types          → Global TypeScript types and interfaces
+/public         → Static assets served directly by Next.js
 ```
 
 ---

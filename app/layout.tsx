@@ -1,106 +1,96 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Poppins, Outfit, Geist_Mono } from "next/font/google";
+import { SkipToContent } from "@/components/common/SkipToContent";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { siteConfig } from "@/data/site";
 import "./globals.css";
-import Providers from "./providers";
 
-const inter = Inter({
+const poppins = Poppins({
+  variable: "--font-poppins",
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
-// SEO metadata unchanged
+const outfit = Outfit({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: ["700", "800", "900"],
+  display: "swap",
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.jenitlalshakya.com.np"),
-  title: "Jenit Lal Shakya | Web Developer & Portfolio",
-  description:
-    "Explore the portfolio of Jenit Lal Shakya, a professional web developer specializing in modern web development, React, Next.js, and responsive design.",
-  robots: {
-    index: process.env.NEXT_PUBLIC_INDEX === "true",
-    follow: process.env.NEXT_PUBLIC_INDEX === "true",
+  title: {
+    default: `${siteConfig.name} | ${siteConfig.role}`,
+    template: `%s | ${siteConfig.name}`,
   },
-  keywords: [
-    "Jenit Lal Shakya",
-    "web developer",
-    "Next.js portfolio",
-    "React developer",
-    "frontend developer",
-    "UI/UX design",
-    "JavaScript projects",
-  ],
-  authors: [
-    {
-      name: "Jenit Lal Shakya",
-      url: "https://www.jenitlalshakya.com.np",
-    },
-  ],
-  alternates: { canonical: "https://www.jenitlalshakya.com.np" },
+  description: siteConfig.description,
+  keywords: [...siteConfig.keywords],
+  authors: [{ name: siteConfig.name, url: siteConfig.url }],
+  creator: siteConfig.name,
+  metadataBase: new URL(siteConfig.url),
   openGraph: {
+    type: "website",
     locale: "en_US",
-    title: "Jenit Lal Shakya | Web Developer Portfolio",
-    description:
-      "Showcasing web development projects, skills, and expertise in React, Next.js, and modern web technologies.",
-    url: "https://www.jenitlalshakya.com.np",
-    siteName: "Jenit Lal Shakya Portfolio",
+    url: siteConfig.url,
+    title: `${siteConfig.name} | ${siteConfig.role}`,
+    description: siteConfig.description,
+    siteName: siteConfig.name,
     images: [
       {
-        url: "https://www.jenitlalshakya.com.np/images/og-image.png",
+        url: siteConfig.ogImage,
         width: 1200,
         height: 630,
-        alt: "Jenit Lal Shakya Portfolio",
-        type: "image/png",
+        alt: `${siteConfig.name} Portfolio`,
       },
     ],
-    type: "website",
   },
   twitter: {
-    site: "@jenitlalshakya",
     card: "summary_large_image",
-    title: "Jenit Lal Shakya | Web Developer Portfolio",
-    description:
-      "Showcasing web development projects, skills, and expertise in React, Next.js, and modern web technologies.",
-    images: ["https://www.jenitlalshakya.com.np/images/og-image.png"],
-    creator: "@jenitlalshakya",
+    title: `${siteConfig.name} | ${siteConfig.role}`,
+    description: siteConfig.description,
+    images: [siteConfig.ogImage],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
   },
 };
 
-export default function RootLayout({
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
+    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
+  ],
+};
+
+const RootLayout = ({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function () {
-                const media = window.matchMedia('(prefers-color-scheme: dark)');
-                const root = document.documentElement;
+}>) => (
+  <html
+    lang="en"
+    suppressHydrationWarning
+    className={`${poppins.variable} ${geistMono.variable} ${outfit.variable} h-full scroll-smooth`}
+  >
+    <body className="min-h-full flex flex-col bg-background text-foreground antialiased">
+      <ThemeProvider>
+        <SkipToContent />
+        {children}
+      </ThemeProvider>
+    </body>
+  </html>
+);
 
-                function applyTheme(e) {
-                  if (e.matches) {
-                    root.classList.add('dark');
-                  } else {
-                    root.classList.remove('dark');
-                  }
-                }
-
-                // initial
-                applyTheme(media);
-
-                // live update
-                media.addEventListener('change', applyTheme);
-              })();
-            `,
-          }}
-        />
-      </head>
-      <body className="min-h-full overflow-x-hidden">
-        <Providers>
-          {children}
-        </Providers>
-      </body>
-    </html>
-  );
-}
+export default RootLayout;

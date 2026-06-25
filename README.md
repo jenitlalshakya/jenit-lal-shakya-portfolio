@@ -57,6 +57,8 @@ Clone the repository:
 ```bash
 git clone https://github.com/jenitlalshakya/jenit-lal-shakya-portfolio.git
 cd jenit-lal-shakya-portfolio
+```
+
 Install dependencies:
 
 ```bash
@@ -88,7 +90,7 @@ You can easily deploy this project using:
 
 ## 📸 Screenshots
 
-*(Add screenshots of your portfolio here)*
+[![Portfolio Preview](assets/portfolio.png)](https://www.jenitlalshakya.com.np)
 
 ---
 

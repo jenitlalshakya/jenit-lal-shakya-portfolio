@@ -56,7 +56,7 @@ export const Navbar = () => {
             <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent text-sm font-bold text-accent-foreground transition-transform group-hover:scale-105">
               {getNameInitial(siteConfig.name)}
             </span>
-            <span className="hidden truncate sm:inline max-w-[10rem] md:max-w-[14rem] lg:max-w-none">
+            <span className="truncate sm:inline max-w-[10rem] md:max-w-[14rem] lg:max-w-none">
               {siteConfig.name}
             </span>
           </ScrollLink>

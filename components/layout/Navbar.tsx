@@ -82,7 +82,7 @@ export const Navbar = () => {
               size="sm"
               className="hidden sm:inline-flex"
             >
-              Let's talk
+              Let&apos;s talk
             </Button>
             <button
               type="button"
@@ -134,7 +134,7 @@ export const Navbar = () => {
                 className="mt-6 w-full"
                 onClick={closeMenu}
               >
-                Let's talk
+                Let&apos;s talk
               </Button>
             </motion.div>
           </motion.div>

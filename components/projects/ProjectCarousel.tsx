@@ -2,7 +2,7 @@
 
 import useEmblaCarousel, { type UseEmblaCarouselType } from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useSyncExternalStore, useState } from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 import { ProjectSlide } from "@/components/projects/ProjectSlide";
 import { ProjectPreviewModal } from "@/components/projects/ProjectPreviewModal";
@@ -12,6 +12,13 @@ import { cn } from "@/lib/utils";
 const AUTOPLAY_DELAY = 5000;
 const INACTIVITY_RESUME_DELAY = 5000;
 
+const autoplayPlugin = Autoplay({
+  delay: AUTOPLAY_DELAY,
+  stopOnInteraction: true,
+  stopOnMouseEnter: false,
+  playOnInit: true,
+});
+
 type EmblaApi = NonNullable<UseEmblaCarouselType[1]>;
 
 type ProjectCarouselProps = {
@@ -19,7 +26,6 @@ type ProjectCarouselProps = {
 };
 
 type CarouselAutoplayController = {
-  plugin: ReturnType<typeof Autoplay>;
   pause: () => void;
   scheduleResume: () => void;
   bindDragHandlers: (emblaApi: EmblaApi) => () => void;
@@ -27,15 +33,8 @@ type CarouselAutoplayController = {
 };
 
 function createAutoplayController(
-  autoplayDelay: number,
   inactivityDelay: number,
 ): CarouselAutoplayController {
-  const plugin = Autoplay({
-    delay: autoplayDelay,
-    stopOnInteraction: true,
-    stopOnMouseEnter: false,
-    playOnInit: true,
-  });
 
   let inactivityTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -48,14 +47,14 @@ function createAutoplayController(
 
   const pause = () => {
     clearInactivityTimer();
-    plugin.stop();
+    autoplayPlugin.stop();
   };
 
   const scheduleResume = () => {
     clearInactivityTimer();
     inactivityTimer = setTimeout(() => {
       inactivityTimer = null;
-      plugin.play();
+      autoplayPlugin.play();
     }, inactivityDelay);
   };
 
@@ -76,62 +75,54 @@ function createAutoplayController(
     clearInactivityTimer();
   };
 
-  return { plugin, pause, scheduleResume, bindDragHandlers, destroy };
+  return { pause, scheduleResume, bindDragHandlers, destroy };
 }
 
-export const ProjectCarousel = ({ projects }: ProjectCarouselProps) => {
-  const autoplay = useRef(
-    createAutoplayController(AUTOPLAY_DELAY, INACTIVITY_RESUME_DELAY),
-  ).current;
+const autoplayController = createAutoplayController(INACTIVITY_RESUME_DELAY);
 
+export const ProjectCarousel = ({ projects }: ProjectCarouselProps) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: "start", dragFree: false, duration: 30 },
-    [autoplay.plugin],
+    [autoplayPlugin],
   );
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
+  const scrollSnaps = emblaApi ? emblaApi.scrollSnapList() : [];
+
+  const selectedIndex = useSyncExternalStore(
+    (callback) => {
+      if (!emblaApi) return () => {};
+      emblaApi.on("reInit", callback);
+      emblaApi.on("select", callback);
+      return () => {
+        emblaApi.off("reInit", callback);
+        emblaApi.off("select", callback);
+      };
+    },
+    () => emblaApi?.selectedScrollSnap() ?? 0,
+    () => 0,
+  );
 
   useEffect(() => {
     if (!emblaApi) return;
 
-    setScrollSnaps(emblaApi.scrollSnapList());
-    onSelect();
-
-    emblaApi.on("reInit", onSelect);
-    emblaApi.on("select", onSelect);
-
-    return () => {
-      emblaApi.off("reInit", onSelect);
-      emblaApi.off("select", onSelect);
-    };
-  }, [emblaApi, onSelect]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-
-    const unbindDragHandlers = autoplay.bindDragHandlers(emblaApi);
+    const unbindDragHandlers = autoplayController.bindDragHandlers(emblaApi);
 
     return () => {
       unbindDragHandlers();
-      autoplay.destroy();
+      autoplayController.destroy();
     };
-  }, [emblaApi, autoplay]);
+  }, [emblaApi]);
 
   const navigate = useCallback(
     (action: () => void) => {
       if (!emblaApi) return;
-      autoplay.pause();
+      autoplayController.pause();
       action();
-      autoplay.scheduleResume();
+      autoplayController.scheduleResume();
     },
-    [emblaApi, autoplay],
+    [emblaApi],
   );
 
   const scrollPrev = useCallback(() => {

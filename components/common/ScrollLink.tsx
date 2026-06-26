@@ -1,6 +1,7 @@
 "use client";
 
 import type { AnchorHTMLAttributes, ReactNode } from "react";
+import Link from "next/link";
 import { scrollToSection } from "@/lib/scroll";
 import { cn } from "@/lib/utils";
 
@@ -23,13 +24,13 @@ export const ScrollLink = ({
   };
 
   return (
-    <a
+    <Link
       href="/"
       className={cn(className)}
       onClick={handleClick}
       {...props}
     >
       {children}
-    </a>
+    </Link>
   );
 };

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import type { Project } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -52,9 +53,11 @@ const ProjectImage = ({ project }: { project: Project }) => {
 
   return (
     <div className="relative w-full overflow-hidden">
-      <img
+      <Image
         src={project.image}
         alt={`${project.title} screenshot`}
+        width={800}
+        height={450}
         className={cn(
           "block w-full h-auto transition-transform duration-500 ease-out",
           "group-hover:scale-105",

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
 import { Card } from "@/components/ui/Card";
 import { Container } from "@/components/ui/Container";
@@ -19,9 +20,11 @@ export const About = () => (
         </ScrollReveal>
 
         <ScrollReveal className="order-1 lg:order-2 flex justify-center lg:justify-end lg:mt-2">
-          <img
+          <Image
             src="/profile/me.jpeg"
             alt="Jenit"
+            width={256}
+            height={256}
             className="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-2xl object-cover border border-border/20 shadow-md transition-transform duration-300 hover:scale-[1.02]"
           />
         </ScrollReveal>

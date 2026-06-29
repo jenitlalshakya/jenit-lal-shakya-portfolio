@@ -1,3 +1,5 @@
+import { getDuration } from "@/lib/getDuration";
+
 export const aboutContent = {
   intro:
     "I'm a full-stack developer passionate about building modern web applications and intuitive user experiences. I enjoy turning ideas into functional, responsive products while focusing on performance, accessibility, and clean code.",
@@ -24,9 +26,21 @@ export const aboutContent = {
     "Currently expanding my expertise with React, Next.js, backend development, and modern web technologies.",
   ],
   stats: [
-    { label: "Coding Experience", value: "1+ Yr" },
-    { label: "Frontend Projects", value: "10+" },
-    { label: "React Experience", value: "5 Mo" },
-    { label: "Currently Learning", value: "Next.js" },
+    {
+      label: "Coding Experience",
+      value: getDuration(new Date("2025-03-25"))
+    },
+    {
+      label: "Frontend Projects",
+      value: "10+"
+    },
+    {
+      label: "React Experience",
+      value: getDuration(new Date("2025-12-27"))
+    },
+    {
+      label: "Currently Learning",
+      value: "Next.js"
+    },
   ],
 } as const;

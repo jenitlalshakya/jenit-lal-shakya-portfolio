@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { HiMenuAlt3, HiX } from "react-icons/hi";
+import { HiMenu, HiX } from "react-icons/hi";
 import { ScrollLink } from "@/components/common/ScrollLink";
 import { ThemeToggle } from "@/components/common/ThemeToggle";
 import { Button } from "@/components/ui/Button";
@@ -42,7 +42,7 @@ export const Navbar = () => {
         <nav
           aria-label="Main navigation"
           className={cn(
-            "flex items-center justify-between rounded-2xl border px-4 py-3 transition-all duration-300 sm:px-6",
+            "relative z-50 flex items-center justify-between rounded-2xl border px-4 py-3 transition-all duration-300 sm:px-6",
             scrolled
               ? "glass border-border/80 shadow-lg shadow-black/5"
               : "border-transparent bg-transparent",
@@ -91,7 +91,7 @@ export const Navbar = () => {
               aria-expanded={isOpen}
               aria-label={isOpen ? "Close menu" : "Open menu"}
             >
-              {isOpen ? <HiX className="h-5 w-5" /> : <HiMenuAlt3 className="h-5 w-5" />}
+              {isOpen ? <HiX className="h-5 w-5" /> : <HiMenu className="h-5 w-5" />}
             </button>
           </div>
         </nav>

@@ -8,13 +8,20 @@ import { cn } from "@/lib/utils";
 
 export const ScrollToTop = () => {
   const [visible, setVisible] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > 400);
+    const onMenuChange = (e: Event) => setMenuOpen((e as CustomEvent<{ isOpen: boolean }>).detail.isOpen);
+    window.addEventListener("mobilemenu:change", onMenuChange);
+    return () => window.addEventListener("mobilemenu:change", onMenuChange);
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => setVisible(!menuOpen && window.scrollY > 400);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [menuOpen]);
 
   return (
     <AnimatePresence>

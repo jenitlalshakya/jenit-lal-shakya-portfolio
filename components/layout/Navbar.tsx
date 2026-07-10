@@ -24,8 +24,22 @@ export const Navbar = () => {
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
+    window.dispatchEvent(
+      new CustomEvent("mobilemenu:change", { detail: { isOpen } }),
+    );
+    const main = document.getElementById("main-content");
+    const footer = document.querySelector("footer");
+    if (isOpen) {
+      main?.setAttribute("inert", "");
+      footer?.setAttribute("inert", "");
+    } else {
+      main?.removeAttribute("inert");
+      footer?.removeAttribute("inert");
+    }
     return () => {
       document.body.style.overflow = "";
+      main?.removeAttribute("inert");
+      footer?.removeAttribute("inert");
     };
   }, [isOpen]);
 

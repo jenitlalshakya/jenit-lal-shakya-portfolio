@@ -1,4 +1,4 @@
-import { getDuration } from "@/lib/getDuration";
+import type { Stat } from "@/types/index";
 
 export const aboutContent = {
   intro:
@@ -28,19 +28,23 @@ export const aboutContent = {
   stats: [
     {
       label: "Coding Experience",
-      value: getDuration(new Date("2025-03-25"))
+      type: "dynamic",
+      startDate: new Date("2025-03-25")
     },
     {
       label: "Frontend Projects",
+      type: "static",
       value: "10+"
     },
     {
       label: "React Experience",
-      value: getDuration(new Date("2025-12-27"))
+      type: "dynamic",
+      startDate: new Date("2025-12-27")
     },
     {
       label: "Currently Learning",
+      type: "static",
       value: "Next.js"
     },
-  ],
+  ] satisfies Stat[],
 } as const;

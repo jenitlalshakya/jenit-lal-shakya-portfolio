@@ -1,6 +1,6 @@
 {
   "name": "portfolio",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -29,5 +29,6 @@
     "eslint-config-next": "16.2.6",
     "tailwindcss": "^4",
     "typescript": "^5"
-  }
+  },
+  "packageManager": "pnpm@11.21.0"
 }

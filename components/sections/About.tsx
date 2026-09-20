@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/Card";
 import { Container } from "@/components/ui/Container";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import { aboutContent } from "@/data/about";
+import { DurationStat } from "@/components/common/DurationStat";
 
 export const About = () => (
   <section id="about" className="section-padding">
@@ -77,7 +78,11 @@ export const About = () => (
                 className="flex flex-col items-center justify-center py-7 text-center"
               >
                 <span className="text-2xl font-medium text-foreground">
-                  {stat.value}
+                  {stat.type === "dynamic" ? (
+                    <DurationStat startDate={stat.startDate} />
+                  ) : (
+                      stat.value
+                  )}
                 </span>
                 <span className="mt-1 text-[11px] uppercase tracking-widest text-muted">
                   {stat.label}

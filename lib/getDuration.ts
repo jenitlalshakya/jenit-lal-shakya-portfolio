@@ -10,4 +10,4 @@ export const getDuration = (startDate: Date): string => {
   const years = Math.floor(months / 12);
 
   return `${years}+ ${years === 1 ? "Yr" : "Yrs"}`;
-}
+};

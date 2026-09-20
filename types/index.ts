@@ -11,6 +11,18 @@ export type SocialLink = {
   icon: IconType;
 };
 
+export type Stat =
+  | {
+      label: string;
+      type: "static";
+      value: string;
+    }
+  | {
+      label: string;
+      type: "dynamic";
+      startDate: Date;
+    };
+
 export type SkillCategory = {
   title: string;
   skills: {

@@ -10,9 +10,7 @@ import {
   SiDocker,
   SiFigma,
   SiFramer,
-  SiJest,
 } from "react-icons/si";
-import { FaAws } from "react-icons/fa6";
 import { TbBrandVercel } from "react-icons/tb";
 import type { SkillCategory } from "@/types";
 
@@ -40,9 +38,7 @@ export const skillCategories: SkillCategory[] = [
     skills: [
       { name: "Git", icon: SiGit },
       { name: "Docker", icon: SiDocker },
-      { name: "AWS", icon: FaAws },
       { name: "Vercel", icon: TbBrandVercel },
-      { name: "Jest", icon: SiJest },
     ],
   },
   {

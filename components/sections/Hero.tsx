@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { HiArrowDown, HiOutlineSparkles } from "react-icons/hi2";
 import { ScrollLink } from "@/components/common/ScrollLink";
 import { SocialLinks } from "@/components/common/SocialLinks";
+import { DownloadCVButton } from "@/components/cv/DownloadCVButton";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { siteConfig } from "@/data/site";
@@ -104,6 +105,7 @@ export const Hero = () => (
             <Button section="contact" variant="outline" size="lg">
               Get in touch
             </Button>
+            <DownloadCVButton />
           </motion.div>
 
           <motion.div custom={4} initial="hidden" animate="visible" variants={fadeUp}>

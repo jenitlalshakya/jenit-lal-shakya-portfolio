@@ -73,3 +73,44 @@ export type Achievement = {
   value: string;
   label: string;
 };
+
+export type CVContactLink = {
+  label: string;
+  href: string;
+  text: string;
+};
+
+export type CVEducationEntry = {
+  degree: string;
+  institution: string;
+  location: string;
+  startYear: string;
+  endYear: string;
+  description?: string;
+};
+
+export type CVSkillCategory = {
+  title: string;
+  skills: string[];
+};
+
+export type CVProjectEntry = {
+  title: string;
+  description: string;
+  tags: string[];
+  liveUrl?: string;
+  githubUrl?: string;
+};
+
+export type CVData = {
+  name: string;
+  headline: string;
+  summary: string;
+  email: string;
+  phone: string;
+  location: string;
+  links: CVContactLink[];
+  education: CVEducationEntry[];
+  skillCategories: CVSkillCategory[];
+  projects: CVProjectEntry[];
+};

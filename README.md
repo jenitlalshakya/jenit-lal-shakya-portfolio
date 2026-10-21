@@ -62,13 +62,13 @@ cd jenit-lal-shakya-portfolio
 Install dependencies:
 
 ```bash
-npm install
+pnpm install
 ```
 
 Run the development server:
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 Open in browser:
